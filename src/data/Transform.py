@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-# import translators as ts
+import translators as ts
 
 
 
@@ -36,8 +36,8 @@ pd.DataFrame(user_dataframe)
 print(user_dataframe)
 
 # 1. Translate all user language to english
-# def translate_to_english(translated_review):
-#    return ts.translate_text(translate_to_english)
+def translate_to_english(translated_review):
+    return ts.translate_text(translate_to_english)
 
 # user_dataframe["Translated_Review"].apply(translate_to_english)
 
