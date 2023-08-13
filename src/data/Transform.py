@@ -28,6 +28,8 @@ print(all_categories)
 # it's usefull because if the application don't have rating we set it by the most low rating
 dataframe["Rating"].fillna(0, inplace=True)
 
+#TODO: some features will added like filter app by installs, price, and size
+
 #####################################################Googleplaystoreuserreview#########################################
 user_dataframe = pd.read_csv("googleplaystore_user_reviews.csv")
 pd.DataFrame(user_dataframe)
@@ -45,4 +47,3 @@ user_dataframe["Sentiment"].fillna(user_dataframe["Sentiment"].mode()[0], inplac
 user_dataframe["Sentiment_Polarity"].fillna(user_dataframe["Sentiment_Polarity"].median(), inplace=True)
 user_dataframe["Sentiment_Subjectivity"].fillna(user_dataframe["Sentiment_Subjectivity"].median(), inplace=True)
 print(user_dataframe)
-
