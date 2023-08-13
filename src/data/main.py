@@ -26,10 +26,7 @@ dag_python = DAG(
     dagrun_timeout=timedelta(minutes=60),
     description='pipeline for data project',
     start_date = airflow.utils.dates.days_ago(1)
-)
-
-def main2():
-    
+)  
 
 
 def main():
