@@ -14,8 +14,8 @@ default_args = {
     'email':['hei.nykoloina.2@gmail.com'],
     'email_on_failure': False,
     'email_on_retry': False,
-    'retries': 1,
-    'retry_delay': timedelta(minutes=5)
+    'retries': 3,
+    'retry_delay': timedelta(minutes=1)
 }
 jobs_etl_dags = DAG(
     'jobs_etl_dags',
@@ -26,6 +26,15 @@ jobs_etl_dags = DAG(
     dagrun_timeout=timedelta(minutes=60),
     tags=['example,jobsetl']
 )
+
+def extract_datas():
+    rates = extract_rates("https://v6.exchangerate-api.com/v6/85a67b762af150352ffb7e6a/latest/USD")
+    apps = extract_datas("googleplaystore.csv")
+    reviews = extract_datas("googleplaystore_user_reviews.csv")
+    return rates,apps,reviews
+
+rates,apps,reviews = extract_datas()
+
 
 def print_hello():
     return 'Hello world!'
