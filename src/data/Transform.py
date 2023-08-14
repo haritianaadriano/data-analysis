@@ -1,8 +1,5 @@
 import pandas as pd
-import numpy as np
-import translators as ts
-
-
+from translate import Translator
 
 # q_text = '季姬寂，集鸡，鸡即棘鸡。棘鸡饥叽，季姬及箕稷济鸡。'
 # print(ts.translate_text(q_text))
@@ -33,17 +30,24 @@ dataframe["Rating"].fillna(0, inplace=True)
 #####################################################Googleplaystoreuserreview#########################################
 user_dataframe = pd.read_csv("googleplaystore_user_reviews.csv")
 pd.DataFrame(user_dataframe)
-print(user_dataframe)
+
+# Ensure that the Translated_Review don't have a NaN
+user_dataframe["Translated_Review"].fillna(value="no review", inplace=True)
 
 # 1. Translate all user language to english
-def translate_to_english(translated_review):
-    return ts.translate_text(translate_to_english)
+def translate_to_english(text):
+    # Assuming ts.translate_text() is the function to translate text to English
+    translator = Translator(to_lang="en")
+    translated_text = translator.translate(text)
+    return translated_text
 
-# user_dataframe["Translated_Review"].apply(translate_to_english)
+# Apply the translate_to_english function to the "Translated_Review" column
+user_dataframe["Translated_Review"].astype(str)
+user_dataframe["Review_translated"] = user_dataframe["Translated_Review"].map(translate_to_english)
 
 # 2. Change NaN to no review in translated review
-user_dataframe["Translated_Review"].fillna(value="no review", inplace=True)
 user_dataframe["Sentiment"].fillna(user_dataframe["Sentiment"].mode()[0], inplace=True)
 user_dataframe["Sentiment_Polarity"].fillna(user_dataframe["Sentiment_Polarity"].median(), inplace=True)
 user_dataframe["Sentiment_Subjectivity"].fillna(user_dataframe["Sentiment_Subjectivity"].median(), inplace=True)
+
 print(user_dataframe)
