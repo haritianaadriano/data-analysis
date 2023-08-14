@@ -24,6 +24,7 @@ print(all_categories)
 # 4. Switch to the most repeted the NaN rating
 # it's usefull because if the application don't have rating we set it by the most low rating
 dataframe["Rating"].fillna(0, inplace=True)
+print(dataframe)
 
 #TODO: some features will added like filter app by installs, price, and size
 
@@ -50,4 +51,3 @@ user_dataframe["Sentiment"].fillna(user_dataframe["Sentiment"].mode()[0], inplac
 user_dataframe["Sentiment_Polarity"].fillna(user_dataframe["Sentiment_Polarity"].median(), inplace=True)
 user_dataframe["Sentiment_Subjectivity"].fillna(user_dataframe["Sentiment_Subjectivity"].median(), inplace=True)
 
-print(user_dataframe)
