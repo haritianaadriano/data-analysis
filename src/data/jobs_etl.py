@@ -5,6 +5,7 @@ from airflow.operators.python_operator import PythonOperator
 from data.S3Pusher import uploadToS3
 from Extract import extract_rates
 from Extract import extract_datas
+from S3Pusher import uploadToS3
 
 
 default_args = {
@@ -35,12 +36,15 @@ def extract_datas():
 
 rates,apps,reviews = extract_datas()
 
+def load_datas(files):
+    uploadToS3("subject",files)
 
 def print_hello():
     return 'Hello world!'
 
-start_task = DummyOperator(task_id='start_task',dag=hello_world_dag)
-hello_world_task = PythonOperator(task_id='hello_world_task',python_callable=print_hello,dag=hello_world_dag)
-end_task = DummyOperator(task_id='end_task', dag=hello_world_dag)
+start_task = DummyOperator(task_id='start_task',dag=jobs_etl_dags)
+extract_task = PythonOperator(task_id='extract_task',python_callable=extract_datas,dag=jobs_etl_dags)
+load_task = PythonOperator(task_id='laod_task',python_callable=load_datas,op_args=[rates],dag=jobs_etl_dags)
+end_task = DummyOperator(task_id='end_task', dag=jobs_etl_dags)
 
-start_task >> hello_world_task >> end_task
+start_task >> extract_task >> load_task >> end_task
