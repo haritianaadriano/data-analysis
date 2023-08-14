@@ -81,4 +81,6 @@ def concatenate_playstore_userReview():
     dataframe["User_sentiment"] = user_dataframe["Sentiment"].apply(add_user_sentiment)
     dataframe["User_sentiment"].fillna(dataframe["User_sentiment"].mode()[0], inplace=True)
 
-print(dataframe)
+def extract_to_csv():
+    dataframe.to_csv("Transformed.csv")
+    print(dataframe)
