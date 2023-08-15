@@ -35,7 +35,7 @@ def transform_review_user_dataframe():
     user_dataframe["Translated_Review"].fillna(value="no review", inplace=True)
 
 # 1. Translate all user language to english
-def translate_to_english_user_dataframe(text):
+def translate_to_english(text):
     # Assuming ts.translate_text() is the function to translate text to English
     translator = Translator(to_lang="en")
     translated_text = translator.translate(text)
