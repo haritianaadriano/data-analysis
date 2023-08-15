@@ -22,7 +22,11 @@ def transform_review_user_dataframe(frame):
     frame["Translated_Review"].fillna(value="no review", inplace=True)
 
 # 1. Translate all user language to english
-
+def translate_to_english(text):
+    # Assuming ts.translate_text() is the function to translate text to English
+    translator = Translator(to_lang="en")
+    translated_text = translator.translate(text)
+    return translated_text
 
 # Apply the translate_to_english function to the "Translated_Review" column
 def translate_to_english_user_dataframe(frame):
@@ -36,7 +40,22 @@ def change_the_NaN_user_dataframe(frame):
     frame["Sentiment_Subjectivity"].fillna(frame["Sentiment_Subjectivity"].median(), inplace=True)
 
 #####################################################Rates###############################################################
+def fillnull(frame):
+    frame["Sentiment_Polarity"].fillna(0, inplace=True)
+    frame["Sentiment_Subjectivity"].fillna(0, inplace=True)
 
+def add_user_sentiment_polarity(sentiment_purcentage,frame):
+    if(sentiment_purcentage > frame["Sentiment_Polarity"].mean()):
+        return "Good"
+    else:
+        return "Bad"
+    
+def add_user_sentiment_subjectivity(sentiment_purcentage,frame):
+    if(sentiment_purcentage > frame["Sentiment_Subjectivity"].mean()):
+        return "Good"
+    else:
+        return "Bad"
+    
 def add_user_sentiment(sentiment):
     return sentiment
 
@@ -46,3 +65,5 @@ def concatenate_playstore_userReview(frame,framereview):
     frame["User_sentiment"] = framereview["Sentiment"].apply(add_user_sentiment)
     frame["User_sentiment"].fillna(frame["User_sentiment"].mode()[0], inplace=True)
 
+def extract_to_csv(frame):
+    return frame.to_csv("Transformed.csv")  
