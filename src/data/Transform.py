@@ -52,21 +52,24 @@ def change_the_NaN_user_dataframe():
     user_dataframe["Sentiment_Polarity"].fillna(user_dataframe["Sentiment_Polarity"].median(), inplace=True)
     user_dataframe["Sentiment_Subjectivity"].fillna(user_dataframe["Sentiment_Subjectivity"].median(), inplace=True)
 
-#####################################################Rates###############################################################
-user_sentiment = user_dataframe.groupby("App")[["Sentiment_Polarity", "Sentiment_Subjectivity"]].median()
-user_sentiment["Sentiment_Polarity"].fillna(0, inplace=True)
-user_sentiment["Sentiment_Subjectivity"].fillna(0, inplace=True)
-
-user_sentiment_polarity_mean = user_sentiment["Sentiment_Polarity"].mean()
-user_sentiment_subjectivity_mean = user_sentiment["Sentiment_Subjectivity"].mean()
+#####################################################User_sentiment###############################################################
+def transform_user_sentiment():
+    user_sentiment = user_dataframe.groupby("App")[["Sentiment_Polarity", "Sentiment_Subjectivity"]].median()
+    user_sentiment["Sentiment_Polarity"].fillna(0, inplace=True)
+    user_sentiment["Sentiment_Subjectivity"].fillna(0, inplace=True)
+    
 
 def add_user_sentiment_polarity(sentiment_purcentage):
+    user_sentiment = user_dataframe.groupby("App")[["Sentiment_Polarity", "Sentiment_Subjectivity"]].median()
+    user_sentiment_polarity_mean = user_sentiment["Sentiment_Polarity"].mean()
     if(sentiment_purcentage > user_sentiment_polarity_mean):
         return "Good"
     else:
         return "Bad"
     
 def add_user_sentiment_subjectivity(sentiment_purcentage):
+    user_sentiment = user_dataframe.groupby("App")[["Sentiment_Polarity", "Sentiment_Subjectivity"]].median()
+    user_sentiment_subjectivity_mean = user_sentiment["Sentiment_Subjectivity"].mean()
     if(sentiment_purcentage > user_sentiment_subjectivity_mean):
         return "Good"
     else:
@@ -84,3 +87,16 @@ def concatenate_playstore_userReview():
 def extract_to_csv():
     dataframe.to_csv("Transformed.csv")
     print(dataframe)
+
+print(dataframe)
+########################################################AED##############################################################
+
+import matplotlib.pyplot as plt
+
+def schemas_comparing_app_by_price():
+    dataframe_sorted_by_price = dataframe.sort_values(by="Price", ascending=False)
+    top_15_sorted = dataframe_sorted_by_price.head(15)
+    top_15_sorted.plot(kind='bar')
+    plt.ylabel('prix')
+    plt.title('Top 10 des app les plus chers')
+    plt.show()
