@@ -1,11 +1,11 @@
 import pandas as pd
-import numpy as np
 import boto3 as bt
 import os
 from dotenv import load_dotenv
 from datetime import datetime
 
 def uploadToS3(data,csvFilePath):
+    csv_file_path = os.path.join(os.path.dirname(__file__), csvFilePath)
     load_dotenv()
     s3 = bt.resource(
         's3',
@@ -16,4 +16,4 @@ def uploadToS3(data,csvFilePath):
     current_datetime_string = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
 
     filename=data+"-"+current_datetime_string+'.csv'
-    s3.Object(os.getenv('BUCKET_NAME'), filename).put(Body=csvFilePath)
+    s3.Object(os.getenv('BUCKET_NAME'), filename).put(Body=open(csv_file_path, 'rb'))
